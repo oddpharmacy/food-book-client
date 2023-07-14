@@ -1,5 +1,4 @@
-import React from "react";
-import LanguageIcon from "@mui/icons-material/Language";
+import React, { useState } from "react";
 import {
   NavbarWrapper,
   NavbarContent,
@@ -7,10 +6,27 @@ import {
   NavLinks,
   NavLogin,
   NavLink,
+  NavLanguageIcon,
+  NavDropdownWrapper,
+  NavDropdown,
+  NavButtonWrapper,
+  NavLangButton,
 } from "../styles/Navbar.style";
 import { Link } from "react-router-dom";
+import i18n from "../i18n";
+import { useTranslation } from "react-i18next";
+import { changeLanguage } from "i18next";
 
 const Navbar: React.FC = () => {
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const { t } = useTranslation();
+
+  const handleChangeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+    setShowDropdown(false);
+  };
+
   return (
     <NavbarWrapper>
       <NavbarContent data-test="header-logo">
@@ -18,12 +34,32 @@ const Navbar: React.FC = () => {
           <NavLogo src="src/assets/logo.png" alt="logo" />
         </Link>
         <NavLinks>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/about">About</NavLink>
+          <NavLink data-test="header-home" to="/">
+            {t("Home")}
+          </NavLink>
+          <NavLink to="/about">{t("About")}</NavLink>
           <Link to="/login">
-            <NavLogin>Login</NavLogin>
+            <NavLogin>{t("Login")}</NavLogin>
           </Link>
-          <LanguageIcon fontSize="inherit" />
+          <NavDropdownWrapper>
+            <NavLanguageIcon
+              data-test="lang-button"
+              onClick={() => setShowDropdown(!showDropdown)}
+            />
+            <NavDropdown showDropdown={showDropdown}>
+              <NavButtonWrapper>
+                <NavLangButton onClick={() => changeLanguage("en")}>
+                  en
+                </NavLangButton>
+                <NavLangButton
+                  data-test="lang-bm"
+                  onClick={() => changeLanguage("bm")}
+                >
+                  bm
+                </NavLangButton>
+              </NavButtonWrapper>
+            </NavDropdown>
+          </NavDropdownWrapper>
         </NavLinks>
       </NavbarContent>
     </NavbarWrapper>
