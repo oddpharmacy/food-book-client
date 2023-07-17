@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 
 export const FooterWrapper = styled.footer`
-  width: 100%;
-  position: absolute;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
   bottom: 0;
 
   @media (max-width: 768px) {
