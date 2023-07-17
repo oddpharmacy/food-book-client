@@ -31,7 +31,7 @@ const Navbar: React.FC = () => {
     <NavbarWrapper>
       <NavbarContent data-test="header-logo">
         <Link to="/">
-          <NavLogo src="src/assets/logo.png" alt="logo" />
+          <NavLogo src="/logo.png" alt="logo" />
         </Link>
         <NavLinks>
           <NavLink data-test="header-home" to="/">
@@ -48,12 +48,12 @@ const Navbar: React.FC = () => {
             />
             <NavDropdown showDropdown={showDropdown}>
               <NavButtonWrapper>
-                <NavLangButton onClick={() => changeLanguage("en")}>
+                <NavLangButton onClick={() => handleChangeLanguage("en")}>
                   en
                 </NavLangButton>
                 <NavLangButton
                   data-test="lang-bm"
-                  onClick={() => changeLanguage("bm")}
+                  onClick={() => handleChangeLanguage("bm")}
                 >
                   bm
                 </NavLangButton>
