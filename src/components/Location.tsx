@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { LocationText } from "../styles/Location.style";
 import { LocationContext, LocationContextProps } from "../state/location";
+import axios from "axios";
 
 interface LocationPosition {
   accuracy: number | null;
@@ -34,17 +35,21 @@ const Location: React.FC = () => {
   };
 
   const getLocationInfo = async (latitude: number, longitude: number) => {
-    const result = await fetch(
-      `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=6d0e711d72d74daeb2b0bfd2a5cdfdba` //using opencage tester key
-    );
-    const data = await result.json();
+    const response = await axios.post(`http://localhost:8080/location/`, {
+      latitude,
+      longitude,
+    });
+
+    const data = response.data;
+
+    console.log("dataaa", data);
     setCity(data.results[0].components["city"]);
     setCountry(data.results[0].components["country"]);
   };
 
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.permissions.query({ name: "geolocation" }).then((res) => {
+      navigator.permissions.query({ name: "geolocation" }).then(() => {
         navigator.geolocation.getCurrentPosition(success);
       });
     }
